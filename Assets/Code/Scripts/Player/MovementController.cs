@@ -33,6 +33,7 @@ public class MovementController : NetworkBehaviour
 
     private void FixedUpdate() { if (IsOwner) _currentStage?.FixedUpdate(this); }
     private void OnMove(InputValue value) { if (IsOwner) _currentStage?.HandleInput(value); }
+    private void OnJump() { if (_currentStage is not SpaceMovement) SwitchState(new SpaceMovement(), null); }
 
     public void SetImpulse(IImpulseStrategy strategy) => Impulse = strategy;
     public void SwitchState(IMovementState newState, IGravityStrategy gravity)

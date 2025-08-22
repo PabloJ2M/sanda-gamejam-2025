@@ -26,6 +26,7 @@ public class PlanetMovement : IMovementState
     {
         _controller.RigidBody.freezeRotation = false;
         _controller.Mesh.localRotation = Quaternion.identity;
+        _controller.RigidBody.AddForce(-_gravityDirection * 10, ForceMode.Impulse);
     }
 
     public void HandleInput(InputValue input)
@@ -38,8 +39,9 @@ public class PlanetMovement : IMovementState
         RotateOverSurface();
 
         _movement = (_controller.Head.forward * _input.y + _controller.Head.right * _input.x);
-        _controller.RigidBody.MovePosition(_controller.RigidBody.position + _movement * 3f * Time.fixedDeltaTime);
+        _movement = Vector3.ProjectOnPlane(_movement, _gravityDirection).normalized;
 
+        _controller.RigidBody.MovePosition(_controller.RigidBody.position + _movement * 3f * Time.fixedDeltaTime);
         RotateToDirection();
     }
 

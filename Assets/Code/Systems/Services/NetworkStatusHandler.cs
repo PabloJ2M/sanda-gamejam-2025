@@ -1,27 +1,30 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Unity.Netcode
+namespace Unity.Multiplayer.Widgets
 {
-    public class NetworkStatusHandler : MonoBehaviour
+    public class NetworkStatusHandler : SingletonBasic<NetworkStatusHandler>
     {
         [SerializeField] private UnityEvent<bool> _onLouding;
         [SerializeField] private UnityEvent<bool> _onDisplayChanged;
-        private NetworkManager _manager;
 
         private void Start()
         {
             _onLouding.Invoke(false);
             _onDisplayChanged.Invoke(true);
-
-            _manager = NetworkManager.Singleton;
-            _manager.OnClientStarted += HandlerClientStarted;
-            _manager.OnClientConnectedCallback += HandleClientConnected;
-            _manager.OnClientDisconnectCallback += HandleClientDisconnect;
+            NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconect;
         }
+        private void OnDisable() => NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconect;
 
-        private void HandlerClientStarted() => _onLouding.Invoke(true);
-        private void HandleClientConnected(ulong clientId) { _onDisplayChanged.Invoke(false); _onLouding.Invoke(false); }
-        private void HandleClientDisconnect(ulong clientId) => _onDisplayChanged.Invoke(true);
+        public void HandleJoinStarted() => _onLouding.Invoke(true);
+        public void HandleJoinFaulure() => _onLouding.Invoke(false);
+        public void HandleJoinSucceded() { _onDisplayChanged.Invoke(false); _onLouding.Invoke(false); }
+        public void HandleLeaveSession() => _onDisplayChanged.Invoke(true);
+        private void HandleClientDisconect(ulong id)
+        {
+            if (NetworkManager.Singleton.LocalClientId == id)
+                HandleLeaveSession();
+        }
     }
 }
