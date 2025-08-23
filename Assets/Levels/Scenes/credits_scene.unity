@@ -646,7 +646,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: si :u
+  m_text: 'Creditos
+
+
+    si :u'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -847,11 +850,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7342975016526119257, guid: 57b50f1f0c4eacf438a9793375644477, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 185
       objectReference: {fileID: 0}
     - target: {fileID: 7342975016526119257, guid: 57b50f1f0c4eacf438a9793375644477, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 65
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7342975016526119257, guid: 57b50f1f0c4eacf438a9793375644477, type: 3}
       propertyPath: m_LocalPosition.x

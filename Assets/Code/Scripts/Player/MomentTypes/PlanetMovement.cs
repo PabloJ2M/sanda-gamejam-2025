@@ -41,7 +41,7 @@ public class PlanetMovement : IMovementState
         _movement = (_controller.Head.forward * _input.y + _controller.Head.right * _input.x);
         _movement = Vector3.ProjectOnPlane(_movement, _gravityDirection).normalized;
 
-        _controller.RigidBody.MovePosition(_controller.RigidBody.position + _movement * 3f * Time.fixedDeltaTime);
+        _controller.RigidBody.MovePosition(_controller.RigidBody.position + _movement * 5f * Time.fixedDeltaTime);
         RotateToDirection();
     }
 

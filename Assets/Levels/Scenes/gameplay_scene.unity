@@ -549,6 +549,9 @@ GameObject:
   - component: {fileID: 205788300}
   - component: {fileID: 205788299}
   - component: {fileID: 205788298}
+  - component: {fileID: 205788304}
+  - component: {fileID: 205788303}
+  - component: {fileID: 205788302}
   m_Layer: 5
   m_Name: canvas - ui
   m_TagString: Untagged
@@ -638,6 +641,74 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &205788302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205788297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2225d3a2085b1b4a8a7cb06b0fef314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnityEngine.Animations.TweenCanvasGroup
+  _animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _modifyInteraction: 1
+--- !u!114 &205788303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205788297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1bea9ea0271b94f902a4c2474daf05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnityEngine.Animations.TweenCore
+  _group: {fileID: 0}
+  _time: 0.2
+  _delay: 0.2
+  _startDisable: 1
+  _playOnAwake: 0
+  _isLoop: 0
+  _ignoreTimeScale: 0
+--- !u!225 &205788304
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205788297}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &242417905
 GameObject:
   m_ObjectHideFlags: 0

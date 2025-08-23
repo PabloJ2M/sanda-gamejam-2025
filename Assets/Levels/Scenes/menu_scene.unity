@@ -1072,7 +1072,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _modifyInteraction: 0
+  _modifyInteraction: 1
 --- !u!114 &629994779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1835,7 +1835,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _modifyInteraction: 0
+  _modifyInteraction: 1
 --- !u!114 &1358334373
 MonoBehaviour:
   m_ObjectHideFlags: 0
