@@ -7,7 +7,7 @@ public class Item : NetworkBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     
     private Transform _pendingParent, _trackPoint;
-    private bool isPickedUp = false;
+    private NetworkVariable<bool> _isPickedUp = new(false, default, NetworkVariableWritePermission.Owner);
 
     public override void OnGainedOwnership()
     {
@@ -15,10 +15,9 @@ public class Item : NetworkBehaviour
         if (_pendingParent) ParentObject();
     }
 
-    public void PickUp(NetworkObject client, Transform track)
+    public bool PickUp(NetworkObject client, Transform track)
     {
-        if (isPickedUp) return;
-        isPickedUp = true;
+        if (_isPickedUp.Value) return false;
 
         _trackPoint = track;
         _pendingParent = client.transform;
@@ -26,13 +25,14 @@ public class Item : NetworkBehaviour
 
         if (!HasAuthority) _object.ChangeOwnership(client.OwnerClientId);
         else ParentObject();
+        return true;
     }
     public void Drop()
     {
+        _isPickedUp.Value = false;
         _object.TrySetParent((Transform)null);
         _rigidbody.isKinematic = false;
         _trackPoint = null;
-        isPickedUp = false;
     }
 
     private void Update()
@@ -40,9 +40,17 @@ public class Item : NetworkBehaviour
         if (!IsOwner || transform.parent == null) return;
         _object.transform.position = _trackPoint.position;
     }
+    private void FixedUpdate()
+    {
+        if (!IsOwner || transform.parent != null) return;
+        if (_rigidbody.linearVelocity.magnitude <= 0.01f) return;
+        _rigidbody.AddForce(-_rigidbody.linearVelocity * Time.fixedDeltaTime, ForceMode.Acceleration);
+    }
+
     private void ParentObject()
     {
         _object.TrySetParent(_pendingParent);
+        _isPickedUp.Value = true;
         _pendingParent = null;
     }
 

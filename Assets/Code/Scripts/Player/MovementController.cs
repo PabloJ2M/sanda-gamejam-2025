@@ -13,7 +13,7 @@ public class MovementController : NetworkBehaviour
     [field: SerializeField] public Transform Mesh { get; private set; }
     [field: SerializeField] public Rigidbody RigidBody { get; private set; }
 
-    public IImpulseStrategy Impulse { get; private set; }
+    //public IImpulseStrategy Impulse { get; private set; }
     public IGravityStrategy Atraction { get; private set; }
 
     private void Awake()
@@ -26,16 +26,24 @@ public class MovementController : NetworkBehaviour
         base.OnNetworkPostSpawn();
         if (!IsOwner) return;
 
-        _cameras.SetTarget(transform);
-        SetImpulse(new VoiceImpulse());
+        _cameras?.SetTarget(transform);
+        //SetImpulse(Settings.ImpulseType);
         SwitchState(new SpaceMovement(), null);
+    }
+    public override void OnNetworkPreDespawn()
+    {
+        base.OnNetworkPreDespawn();
+        if (!IsOwner) return;
+
+        _currentStage?.Close();
+        _cameras?.DisableCameras();
     }
 
     private void FixedUpdate() { if (IsOwner) _currentStage?.FixedUpdate(this); }
     private void OnMove(InputValue value) { if (IsOwner) _currentStage?.HandleInput(value); }
     private void OnJump() { if (_currentStage is not SpaceMovement) SwitchState(new SpaceMovement(), null); }
 
-    public void SetImpulse(IImpulseStrategy strategy) => Impulse = strategy;
+    //public void SetImpulse(IImpulseStrategy strategy) => Impulse = strategy;
     public void SwitchState(IMovementState newState, IGravityStrategy gravity)
     {
         Atraction = gravity;

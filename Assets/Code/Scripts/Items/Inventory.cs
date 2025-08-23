@@ -8,7 +8,6 @@ public class Inventory : NetworkBehaviour
 
     public static float GrabDistance = 5f;
 
-    private Collider[] _hits = new Collider[1];
     private NetworkObject _object;
     private Transform _transform;
     private Item _carriedItem;
@@ -17,6 +16,11 @@ public class Inventory : NetworkBehaviour
     {
         _transform = transform;
         _object = GetComponent<NetworkObject>();
+    }
+    public override void OnNetworkPreDespawn()
+    {
+        base.OnNetworkPreDespawn();
+        Drop();
     }
 
     public void OnInteract()
@@ -36,15 +40,18 @@ public class Inventory : NetworkBehaviour
 
     private void Pickup()
     {
-        Physics.OverlapSphereNonAlloc(_transform.position, GrabDistance, _hits, _mask, QueryTriggerInteraction.Ignore);
-        if (!_hits[0].TryGetComponent(out Item item)) return;
-
-        _carriedItem = item;
-        item.PickUp(_object, _holdPoint);
+        Collider[] hits = Physics.OverlapSphere(_transform.position, GrabDistance, _mask, QueryTriggerInteraction.Ignore);
+        foreach (var hit in hits)
+        {
+            if (!hit.TryGetComponent(out Item item)) continue;
+            if (!item.PickUp(_object, _holdPoint)) continue;
+            _carriedItem = item;
+            return;
+        }
     }
     private void Drop()
     {
-        _carriedItem.Drop();
+        _carriedItem?.Drop();
         _carriedItem = null;
     }
 }

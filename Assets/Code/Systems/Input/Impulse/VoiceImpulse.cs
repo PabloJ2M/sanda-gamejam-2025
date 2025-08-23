@@ -26,6 +26,6 @@ public class VoiceImpulse : IImpulseStrategy
         float level = 0f;
 
         foreach (var s in samples) level += Mathf.Abs(s);
-        return (level /= _samples) * 10f;
+        return (level /= _samples) * 20f;
     }
 }

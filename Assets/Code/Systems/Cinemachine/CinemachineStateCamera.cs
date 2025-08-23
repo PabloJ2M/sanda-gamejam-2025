@@ -12,7 +12,14 @@ namespace Unity.Cinemachine
 
         protected override void Awake() { base.Awake(); DisableCameras(); }
 
-        public void DisableCameras() => SetCamera(CinemachineCameraType.None);
+        public void DisableCameras()
+        {
+            SetCamera(CinemachineCameraType.None);
+            SetTarget(null);
+
+            foreach (var cam in _cameras)
+                cam.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
         public void SetTarget(Transform transform)
         {
             foreach (var camera in _cameras)

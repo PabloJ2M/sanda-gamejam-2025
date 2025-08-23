@@ -7,13 +7,16 @@ public class SpaceMovement : IMovementState
     public CinemachineCameraType CameraType => CinemachineCameraType.Orbit;
 
     private MovementController _controller;
+    private EnergyBatery _batery;
+
     private ParticleSystem.EmissionModule _speedEffect;
-    //private Vector3 _movement;
-    //private Vector2 _input;
+    private Vector3 _movement;
+    private Vector2 _input;
 
     public void Start(MovementController move)
     {
         _controller = move;
+        _batery = EnergyBatery.Instance;
         _speedEffect = move.Head.GetComponentInChildren<ParticleSystem>().emission;
         _speedEffect.enabled = true;
         _speedEffect.rateOverTime = 0;
@@ -22,27 +25,28 @@ public class SpaceMovement : IMovementState
 
     public void HandleInput(InputValue input)
     {
-        //_input = input.Get<Vector2>();
+        _input = input.Get<Vector2>();
     }
     public void FixedUpdate(MovementController move)
     {
-        //_movement = (move.Head.forward * _input.y + move.Head.right * _input.x);
-        float impulse = 10f * move.Impulse.GetImpulse();
-        _speedEffect.rateOverTime = impulse;
+        _movement = _input != Vector2.zero && _batery.Impulse() ? move.Head.forward * _input.y + move.Head.right * _input.x : Vector3.zero;
+        _speedEffect.rateOverTime = _controller.RigidBody.linearVelocity.magnitude;
+        _movement *= 10f;
 
-        MoveToDirection(move, impulse);
         RotateToDirection();
+        MoveToDirection();
+        //float impulse = 10f * move.Impulse.GetImpulse();
     }
 
-    private void MoveToDirection(MovementController move, float impulse)
+    private void MoveToDirection()
     {
-        var speed = move.Head.forward * impulse;
-        speed -= move.RigidBody.linearVelocity;
+        var speed = _movement;
+        speed -= _controller.RigidBody.linearVelocity;
 
-        move.RigidBody.AddForce(speed, ForceMode.Acceleration);
+        _controller.RigidBody.AddForce(speed, ForceMode.Acceleration);
 
-        if (move.RigidBody.linearVelocity.magnitude < 10f) return;
-        move.RigidBody.linearVelocity = move.RigidBody.linearVelocity.normalized * 10f;
+        if (_controller.RigidBody.linearVelocity.magnitude < 10f) return;
+        _controller.RigidBody.linearVelocity = _controller.RigidBody.linearVelocity.normalized * 10f;
     }
     private void RotateToDirection()
     {
