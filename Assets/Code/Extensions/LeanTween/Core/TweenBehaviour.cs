@@ -14,6 +14,7 @@ namespace UnityEngine.Animations
         protected virtual void OnDisable() => _tweenCore.onPlayStatusChanged -= OnPerformePlay;
         public void SetStatus(bool value) => _tweenCore.Play(value);
 
+        protected float Get(float time) => _animationCurve.Evaluate(time);
         protected abstract void OnPerformePlay(bool value);
         protected abstract void OnUpdate(T value);
         protected virtual void OnComplete() => _tweenID = -1;

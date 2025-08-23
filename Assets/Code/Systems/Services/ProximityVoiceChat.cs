@@ -3,6 +3,7 @@ using Unity.Services.Vivox;
 
 public class ProximityVoiceChat : NetworkBehaviour
 {
+    public static readonly Channel3DProperties channel = new(50, 5, 1, AudioFadeModel.LinearByDistance);
     private IVivoxService _service;
     private string _channelName;
 

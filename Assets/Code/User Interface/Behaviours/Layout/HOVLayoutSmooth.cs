@@ -5,7 +5,7 @@ namespace UnityEngine.UI.Effects
     public abstract class HOVLayoutSmooth : HorizontalOrVerticalLayoutGroup
     {
         protected float _speed = 5f;
-        protected float2[] _from, _to;
+        protected float2[] _from = new float2[0], _to = new float2[0];
 
         protected abstract bool _isVertical { get; }
         protected bool _isFirstTime = true;

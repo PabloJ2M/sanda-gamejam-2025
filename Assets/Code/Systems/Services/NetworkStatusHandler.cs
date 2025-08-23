@@ -1,6 +1,7 @@
-using Unity.Netcode;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Unity.Netcode;
 
 namespace Unity.Multiplayer.Widgets
 {
@@ -8,6 +9,7 @@ namespace Unity.Multiplayer.Widgets
     {
         [SerializeField] private UnityEvent<bool> _onLouding;
         [SerializeField] private UnityEvent<bool> _onDisplayChanged;
+        private readonly WaitForSeconds _delay = new(2f);
 
         private void Start()
         {
@@ -15,16 +17,22 @@ namespace Unity.Multiplayer.Widgets
             _onDisplayChanged.Invoke(true);
             NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconect;
         }
-        private void OnDisable() => NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconect;
 
         public void HandleJoinStarted() => _onLouding.Invoke(true);
         public void HandleJoinFaulure() => _onLouding.Invoke(false);
-        public void HandleJoinSucceded() { _onDisplayChanged.Invoke(false); _onLouding.Invoke(false); }
+        public void HandleJoinSucceded() => StartCoroutine(DelayJoinnedAction());
         public void HandleLeaveSession() => _onDisplayChanged.Invoke(true);
+
         private void HandleClientDisconect(ulong id)
         {
             if (NetworkManager.Singleton.LocalClientId == id)
                 HandleLeaveSession();
+        }
+        private IEnumerator DelayJoinnedAction()
+        {
+            yield return _delay;
+            _onDisplayChanged.Invoke(false);
+            _onLouding.Invoke(false);
         }
     }
 }
