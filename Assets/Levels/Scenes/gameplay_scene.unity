@@ -1721,7 +1721,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1798,7 +1798,7 @@ MonoBehaviour:
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 1
+  m_SoftShadowQuality: 3
   m_RenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -9286,8 +9286,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2016450894}
   - component: {fileID: 2016450895}
-  - component: {fileID: 2016450896}
-  - component: {fileID: 2016450898}
   - component: {fileID: 2016450897}
   m_Layer: 2
   m_Name: network spawner
@@ -9336,23 +9334,6 @@ MonoBehaviour:
   AutoObjectParentSync: 0
   SyncOwnerTransformWhenParented: 0
   AllowOwnerToParent: 0
---- !u!114 &2016450896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016450893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d94de3ff4ef2ed41bbe4936e6f946ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NetworkObjectPool
-  _poolConfigs:
-  - prefab: {fileID: 3184967117263085240, guid: 84717f8d157699040abd6b2c6e3a906c, type: 3}
-    size: 4
-  - prefab: {fileID: 3712794344684613447, guid: 5408aef74ea50c24f95a0f009699f29f, type: 3}
-    size: 50
 --- !u!114 &2016450897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9366,40 +9347,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkSpawner
   ShowTopMostFoldoutHeaderGroup: 1
-  _numberOfItems: 10
-  _planetPrefabs:
-  - {fileID: 757683024750459439, guid: 96ff828130c9f40498e78b459a45313e, type: 3}
-  - {fileID: 757683024750459439, guid: 2ecf2ac03fffac541b19de0209230f65, type: 3}
-  - {fileID: 757683024750459439, guid: 1771fc0ead269bb4ba17a2aa46c8a6e5, type: 3}
-  - {fileID: 757683024750459439, guid: 0fd7695749c2d034b88c521668b9632c, type: 3}
-  - {fileID: 757683024750459439, guid: 3032346d5e3fa344a8aeef8836d0f7f5, type: 3}
-  - {fileID: 757683024750459439, guid: b3ca86f3ea95e5e40be93b0e58bd1a2f, type: 3}
-  _itemPrefabs:
-  - {fileID: 3712794344684613447, guid: 5408aef74ea50c24f95a0f009699f29f, type: 3}
-  _gizmos:
-    color: {r: 0.3404944, g: 1, b: 0, a: 0.246}
-    alpha: 0.246
---- !u!65 &2016450898
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016450893}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 200, y: 100, z: 200}
-  m_Center: {x: 0, y: 0, z: 0}
+  _items:
+  - prefab: {fileID: -2642494465189685490, guid: 5408aef74ea50c24f95a0f009699f29f, type: 3}
+    count: 25
 --- !u!1 &2028984604
 GameObject:
   m_ObjectHideFlags: 0

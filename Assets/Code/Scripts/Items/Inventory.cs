@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 using Unity.Netcode;
 
 public class Inventory : NetworkBehaviour
@@ -29,13 +30,6 @@ public class Inventory : NetworkBehaviour
 
         if (!_carriedItem) Pickup();
         else Drop();
-    }
-    public void DeliverItem()
-    {
-        if (_carriedItem == null) return;
-
-        _carriedItem.DeliverServer();
-        _carriedItem = null;
     }
 
     private void Pickup()

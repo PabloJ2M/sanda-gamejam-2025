@@ -32,7 +32,7 @@ public class Settings : SingletonBasic<Settings>
         switch (index)
         {
             case 0: ImpulseType = new VoiceImpulse(); break;
-            case 1: ImpulseType = new KeyboardImpulse(); break;
+            case 1: ImpulseType = new AutoImpulse(); break;
             default: print("not impulse type register"); return;
         }
 

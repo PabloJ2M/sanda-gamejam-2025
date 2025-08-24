@@ -4211,7 +4211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3066094616027325867, guid: 7ed62be6b91c223489a7ecfc3aeecaf3, type: 3}
       propertyPath: m_text
-      value: Keyboard
+      value: Automatic
       objectReference: {fileID: 0}
     - target: {fileID: 6026375604215820154, guid: 7ed62be6b91c223489a7ecfc3aeecaf3, type: 3}
       propertyPath: m_AllowSwitchOff
