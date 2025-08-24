@@ -4,52 +4,33 @@ namespace UnityEngine.Pool
 {
     public class Item : NetworkPooledObject
     {
-        [SerializeField] private NetworkObject _object;
         [SerializeField] private Rigidbody _rigidbody;
     
-        private NetworkVariable<bool> _isPickedUp = new(false, default, NetworkVariableWritePermission.Owner);
-        private Transform _pendingParent, _trackPoint;
+        private NetworkVariable<ulong> _player = new(0, default, NetworkVariableWritePermission.Owner);
+        private bool IsPicked => _player.Value != 0;
 
-        public override void OnGainedOwnership()
+        protected override void OnOwnershipChanged(ulong previous, ulong current)
         {
-            base.OnGainedOwnership();
-            if (_pendingParent) ParentObject();
-        }
-        private void ParentObject()
-        {
-            _object.TrySetParent(_pendingParent);
-            _isPickedUp.Value = true;
-            _pendingParent = null;
+            if (!IsOwner || !IsPicked) return;
+
+            if (_player.Value != current) NetworkObject.ChangeOwnership(previous);
+            else _player.Value = current;
         }
 
-        public bool PickUp(NetworkObject client, Transform track)
+        public bool TryPickedUp(ulong clientId)
         {
-            if (_isPickedUp.Value) return false;
-
-            _trackPoint = track;
-            _pendingParent = client.transform;
-            _rigidbody.isKinematic = true;
-
-            if (!HasAuthority) _object.ChangeOwnership(client.OwnerClientId);
-            else ParentObject();
+            if (IsPicked) return false;
+            if (IsOwner) _player.Value = clientId;
             return true;
         }
-        public void Drop()
+        public void Release()
         {
-            _isPickedUp.Value = false;
-            _object.TrySetParent((Transform)null);
-            _rigidbody.isKinematic = false;
-            _trackPoint = null;
+            if (IsOwner) _player.Value = 0;
         }
 
-        private void Update()
-        {
-            if (!IsOwner || transform.parent == null) return;
-            _object.transform.position = _trackPoint.position;
-        }
         private void FixedUpdate()
         {
-            if (!IsOwner || transform.parent != null) return;
+            if (!IsOwner || IsPicked) return;
             if (_rigidbody.linearVelocity.magnitude <= 0.01f) return;
             _rigidbody.AddForce(-_rigidbody.linearVelocity * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
